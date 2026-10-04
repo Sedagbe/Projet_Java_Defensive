@@ -1,8 +1,11 @@
 package sportzone.modele;
 
+import sportzone.exceptions.SceanceCompleteException;
+
 /**
  * Cours individuel : coaching en tête-à-tête, une seule place par séance,
  * facturé plus cher qu'un cours collectif.
+
  */
 public class CoursIndividuel extends Cours implements Reservable {
 
@@ -10,7 +13,7 @@ public class CoursIndividuel extends Cours implements Reservable {
     private Adherent adherentReserve;
 
     /**
-     * Constructeur
+     * Constructeur. La capacité est fixée à 1 automatiquement :
      * un cours individuel n'accueille qu'un seul adhérent par séance.
      *
      * @param intitule     intitulé du cours, non vide
@@ -19,7 +22,6 @@ public class CoursIndividuel extends Cours implements Reservable {
      * @throws IllegalArgumentException si l'un des paramètres viole son
      *                                  invariant
      */
-
     public CoursIndividuel(String intitule, int dureeMinutes, double tarifHoraire) {
         super(intitule, dureeMinutes, 1);
         if (tarifHoraire <= 0) {
@@ -45,12 +47,13 @@ public class CoursIndividuel extends Cours implements Reservable {
     }
 
     @Override
-    public void reserverPlace(Adherent adherent) {
+    public void reserverPlace(Adherent adherent) throws SceanceCompleteException {
         if (adherent == null) {
             throw new IllegalArgumentException("L'adhérent ne peut pas être null.");
         }
         if (adherentReserve != null) {
-            throw new IllegalStateException("Ce cours individuel est déjà réservé.");
+            throw new SceanceCompleteException(
+                    "Le cours individuel '" + getIntitule() + "' est déjà réservé.");
         }
         this.adherentReserve = adherent;
     }

@@ -1,5 +1,6 @@
 package sportzone;
 
+import sportzone.exceptions.SceanceCompleteException;
 import sportzone.modele.Adherent;
 import sportzone.modele.Cours;
 import sportzone.modele.CoursCollectif;
@@ -14,9 +15,9 @@ import java.util.List;
 /**
  * Programme de démonstration de la Phase 2 : montre le calcul de tarif
  * polymorphe (même appel, résultats différents selon le sous-type réel) et
- * l'usage de l'interface {Reservable}.
+ * l'usage de l'interface {@link Reservable}.
  * <p>
- * Preuve que { Cours} est abstraite : la ligne suivante, si elle était
+ * Preuve que {@code Cours} est abstraite : la ligne suivante, si elle était
  * décommentée, ne compilerait pas :
  * <pre>{@code
  * // Cours c = new Cours("Test", 30, 5); // ERREUR DE COMPILATION :
@@ -49,20 +50,20 @@ public class Phase2demo {
 
         // ---------- 2. Reservable : implemente seulement par certains sous-types ----------
         System.out.println("\n--- 2. Interface Reservable ---");
-        collectif.reserverPlace(a1);
-        collectif.reserverPlace(a2);
-        System.out.println("CoursCollectif places restantes apres 2 reservations : " + collectif.placesRestantes());
         try {
+            collectif.reserverPlace(a1);
+            collectif.reserverPlace(a2);
+            System.out.println("CoursCollectif places restantes apres 2 reservations : " + collectif.placesRestantes());
             collectif.reserverPlace(new Adherent("Trop", "0600000000", LocalDate.now()));
-        } catch (IllegalStateException e) {
+        } catch (SceanceCompleteException e) {
             System.out.println("[OK] 3e reservation refusee : " + e.getMessage());
         }
 
-        individuel.reserverPlace(a1);
-        System.out.println("CoursIndividuel places restantes apres reservation : " + individuel.placesRestantes());
         try {
+            individuel.reserverPlace(a1);
+            System.out.println("CoursIndividuel places restantes apres reservation : " + individuel.placesRestantes());
             individuel.reserverPlace(a2);
-        } catch (IllegalStateException e) {
+        } catch (SceanceCompleteException e) {
             System.out.println("[OK] 2e reservation refusee : " + e.getMessage());
         }
 

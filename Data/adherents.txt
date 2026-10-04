@@ -1,0 +1,6 @@
+Fatou Ndiaye;0611111111;2024-01-10
+LigneSansPointsVirgules
+Jean Dupont;0622222222;2023-12-01
+;0633333333;2024-02-01
+Awa Traore;0644444444;date-invalide
+Moussa Keita;0655555555;2024-03-15

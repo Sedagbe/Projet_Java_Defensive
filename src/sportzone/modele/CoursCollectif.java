@@ -1,5 +1,7 @@
 package sportzone.modele;
 
+import sportzone.exceptions.SceanceCompleteException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class CoursCollectif extends Cours implements Reservable {
     private final List<Adherent> adherentsReserves = new ArrayList<>();
 
     /**
-     *Constructeur
+     * Courant
      *
      * @param intitule         intitulé du cours, non vide
      * @param dureeMinutes     durée en minutes, strictement positive
@@ -48,12 +50,14 @@ public class CoursCollectif extends Cours implements Reservable {
     }
 
     @Override
-    public void reserverPlace(Adherent adherent) {
+    public void reserverPlace(Adherent adherent) throws SceanceCompleteException {
         if (adherent == null) {
             throw new IllegalArgumentException("L'adhérent ne peut pas être null.");
         }
         if (placesRestantes() <= 0) {
-            throw new IllegalStateException("Ce cours collectif est complet.");
+            throw new SceanceCompleteException(
+                    "Le cours collectif '" + getIntitule() + "' a atteint sa capacité maximale de "
+                            + getCapaciteMax() + " places.");
         }
         adherentsReserves.add(adherent);
     }
