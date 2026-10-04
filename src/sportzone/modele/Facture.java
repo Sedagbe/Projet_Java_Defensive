@@ -6,10 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Représente une facture émise pour un {#Adherent}, composée d'au moins
+ * Représente une facture émise pour un { Adherent}, composée d'au moins
  * une ligne de facturation.
-
- * Invariant : une facture contient toujours au moins une ligne.
+ * Invariant garanti : une facture contient toujours au moins une ligne.
  */
 public class Facture {
 
@@ -18,8 +17,7 @@ public class Facture {
     private final List<LigneFacture> ligneFactures;
 
     /**
-     * Constructeun
-     *
+     * Crée une nouvelle facture avec sa première ligne de facturation.
      * @param adherent     adhérent facturé, non null
      * @param dateEmission date d'émission de la facture, non null
      * @param designation  désignation de la première ligne, non vide
@@ -66,10 +64,26 @@ public class Facture {
     /**
      * Calcule le montant total de la facture, somme des montants de chaque
      * ligne.
+     * <p>
+     * Précondition : aucune, cette méthode ne prend pas de paramètre à
+     * valider — la validité de la facture elle-même est garantie par son
+     * constructeur.
+     * Postcondition : retourne un montant strictement positif, puisque
+     * chaque {@link LigneFacture} a un montant strictement positif et qu'il
+     * y en a toujours au moins une.
      *
-     * @return le montant total
+     * @return le montant total, strictement positif
      */
     public double calculerMontantTotal() {
+        // Invariant interne : une facture a toujours au moins une ligne,
+        // garanti par construction (le constructeur exige la première ligne
+        // et aucune méthode publique ne permet de toutes les retirer). Ce
+        // n'est pas une IllegalArgumentException car ce n'est pas une entrée
+        // utilisateur à valider : si cet assert échouait, ce serait un bug
+        // interne de Facture elle-même, pas une mauvaise utilisation par
+        // l'appelant.
+        assert !ligneFactures.isEmpty() : "Invariant violé : une facture ne devrait jamais être vide.";
+
         double total = 0.0;
         for (LigneFacture ligne : ligneFactures) {
             total += ligne.getMontant();
@@ -84,8 +98,8 @@ public class Facture {
     }
 
     /**
-     * Ligne de facturation, élément constitutif d'une {#Facture}.
-     *
+     * Ligne de facturation, élément constitutif d'une { Facture}.
+     * <p>
      * Classe interne (non static) : une ligne de facturation n'existe et n'a
      * de sens que rattachée à une facture précise, ce qui illustre la
      * relation de composition entre Facture et LigneFacture.
@@ -96,7 +110,7 @@ public class Facture {
         private double montant;
 
         /**
-         * Constructeur
+         * Crée une nouvelle ligne de facturation.
          *
          * @param designation désignation de la ligne, non vide
          * @param montant     montant de la ligne, strictement positif

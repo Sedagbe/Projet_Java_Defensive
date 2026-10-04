@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,6 +54,35 @@ public class AdherentService {
         }
         throw new AdherentIntrouvableException(
                 "Aucun adhérent trouvé pour le numéro de téléphone : " + telephone);
+    }
+
+    /**
+     * Recherche un adhérent par téléphone, sans lever d'exception si aucun
+     * ne correspond.
+     * <p>
+     * À utiliser quand l'absence de résultat est une situation normale et
+     * non une erreur métier — par exemple pour vérifier si un numéro est
+     * déjà utilisé avant de créer un nouvel adhérent. Si l'absence doit au
+     * contraire être traitée comme un échec bloquant (ex. réservation pour
+     * un adhérent identifié censé exister), utiliser plutôt
+     * {@link #rechercherParTelephone(String)}, qui lève
+     * {@link AdherentIntrouvableException}.
+     * <p>
+     * Précondition : {@code telephone} n'est pas null (fail-fast).
+     * Postcondition : ne retourne jamais {@code null} — un {@link Optional}
+     * vide signale l'absence de résultat.
+     *
+     * @param telephone numéro recherché
+     * @return un {@link Optional} contenant l'adhérent s'il existe, vide sinon
+     * @throws IllegalArgumentException si telephone est null
+     */
+    public Optional<Adherent> rechercherParTelephoneOptionnel(String telephone) {
+        if (telephone == null) {
+            throw new IllegalArgumentException("Le téléphone recherché ne peut pas être null.");
+        }
+        return adherents.stream()
+                .filter(a -> telephone.equals(a.getTelephone()))
+                .findFirst();
     }
 
     /**
