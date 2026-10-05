@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sportzone.controleur.AccueilController">
+    <center>
+        <VBox alignment="CENTER" spacing="18">
+            <padding>
+                <Insets top="40.0" right="40.0" bottom="40.0" left="40.0"/>
+            </padding>
+            <Label styleClass="titre" text="Bienvenue chez SportZone"/>
+            <Label text="Gérez le planning des séances, les réservations et la facturation."/>
+            <Button maxWidth="260.0" minWidth="260.0" onAction="#allerAuPlanning"
+                    text="Voir le planning des séances"/>
+            <Button maxWidth="260.0" minWidth="260.0" onAction="#allerALaFacturation"
+                    text="Facturation"/>
+        </VBox>
+    </center>
+</BorderPane>

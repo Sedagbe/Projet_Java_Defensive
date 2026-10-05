@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sportzone.controleur.PlanningController">
+    <top>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets top="15.0" right="15.0" bottom="10.0" left="15.0"/>
+            </padding>
+            <Label styleClass="titre" text="Planning des séances"/>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <TextField fx:id="champCours" promptText="Cours"/>
+                <TextField fx:id="champCoach" promptText="Coach"/>
+                <DatePicker fx:id="champDate" promptText="Date"/>
+                <Button onAction="#rechercher" text="Rechercher"/>
+                <Button onAction="#retourAccueil" text="Accueil"/>
+            </HBox>
+        </VBox>
+    </top>
+    <center>
+        <TableView fx:id="tableSceances" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="colonneCours" prefWidth="180.0" text="Cours"/>
+                <TableColumn fx:id="colonneCoach" prefWidth="150.0" text="Coach"/>
+                <TableColumn fx:id="colonneDateHeure" prefWidth="150.0" text="Date / Heure"/>
+                <TableColumn fx:id="colonneSalle" prefWidth="100.0" text="Salle"/>
+                <TableColumn fx:id="colonnePlaces" prefWidth="130.0" text="Places restantes"/>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="10.0" right="15.0" bottom="15.0" left="15.0"/>
+            </padding>
+            <Button fx:id="boutonReserver" onAction="#reserverSceanceSelectionnee" text="Réserver cette séance"/>
+        </HBox>
+    </bottom>
+</BorderPane>

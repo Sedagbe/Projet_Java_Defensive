@@ -1,0 +1,16 @@
+.titre {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10 0;
+}
+
+.champ-erreur {
+    -fx-border-color: #d9534f;
+    -fx-border-width: 2px;
+    -fx-background-color: #fdf2f2;
+}
+
+.resultat {
+    -fx-font-weight: bold;
+    -fx-text-fill: #2e7d32;
+}
