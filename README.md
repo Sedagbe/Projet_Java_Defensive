@@ -26,3 +26,33 @@ L'application permet d'informatiser les activités quotidiennes de la salle de s
 - **Journalisation :** `java.util.logging`
 - **Contrôle de version :** Git & GitHub
 
+##  Structure du Projet
+
+```text
+sportzone/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── sportzone/
+│   │   │       ├── MainApp.java             # Point d'entrée JavaFX
+│   │   │       ├── ContexteApplication.java # Données en mémoire
+│   │   │       ├── controleur/              # Contrôleurs FXML (MVC)
+│   │   │       ├── exceptions/              # Exceptions métier
+│   │   │       ├── modele/                  # Entités du domaine
+│   │   │       └── service/                 # Logique métier & facturation
+│   │   └── resources/
+│   │       └── sportzone/
+│   │           └── vue/                     # Vues FXML & Styles CSS
+│   └── test/
+│       └── java/
+│           └── sportzone/
+│               └── tests/                   # Suite de tests JUnit 5
+├── pom.xml                                  # Configuration Maven
+└── README.md
+```
+
+### 🔹 Phases 1 & 2 — Modèle objet, Encapsulation, Héritage & Polymorphisme
+- **Modélisation de base :** Implémentation des classes métier (`Adherent`, `Coach`, `Cours`, `Seance`, `Reservation`, `Facture`) avec encapsulation stricte des attributs.
+- **Relations UML respectées :** Composition pour les lignes de facture (classe interne `LigneFacture`), agrégation pour les séances et réservations.
+- **Hiérarchie de cours :** Classe abstraite `Cours` et sous-classes concrètes (`CoursCollectif`, `CoursIndividuel`, `StageIntensif`) implémentant le calcul dynamique du tarif de séance (`calculerTarifSeance()`).
+- **Interface métier :** Définition de l'interface `Reservable` appliquée uniquement aux cours le permettant.
