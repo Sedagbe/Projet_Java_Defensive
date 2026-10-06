@@ -48,4 +48,42 @@ public class FacturationService {
         }
         return facture.calculerMontantTotal();
     }
+
+    /** Nombre de séances dans le mois au-delà duquel le tarif dégressif s'applique. */
+    private static final int SEUIL_SEANCES_DEGRESSIF = 8;
+
+    /** Taux de réduction appliqué une fois le seuil dépassé (10 %). */
+    private static final double TAUX_REDUCTION_DEGRESSIF = 0.10;
+
+    /**
+     * Applique une réduction au montant total d'une facture lorsque le
+     * nombre de séances réservées par l'adhérent dans le mois dépasse
+     * {@value #SEUIL_SEANCES_DEGRESSIF}.
+     * <p>
+     * Précondition : {@code facture} non null, {@code nombreSeancesDuMois}
+     * non négatif (fail-fast).
+     * Postcondition : retourne un montant inférieur ou égal au montant
+     * initial de la facture (jamais de majoration).
+     *
+     * @param facture             facture dont on calcule le montant final, non null
+     * @param nombreSeancesDuMois nombre de séances réservées par l'adhérent
+     *                            ce mois-ci, non négatif
+     * @return le montant à payer, réduit de {@value #TAUX_REDUCTION_DEGRESSIF}
+     *         si le seuil est dépassé
+     * @throws IllegalArgumentException si facture est null ou si
+     *                                  nombreSeancesDuMois est négatif
+     */
+    public double appliquerTarifDegressif(Facture facture, int nombreSeancesDuMois) {
+        if (facture == null) {
+            throw new IllegalArgumentException("La facture ne peut pas être null.");
+        }
+        if (nombreSeancesDuMois < 0) {
+            throw new IllegalArgumentException("Le nombre de séances du mois ne peut pas être négatif.");
+        }
+        double montant = facture.calculerMontantTotal();
+        if (nombreSeancesDuMois > SEUIL_SEANCES_DEGRESSIF) {
+            return montant * (1 - TAUX_REDUCTION_DEGRESSIF);
+        }
+        return montant;
+    }
 }
